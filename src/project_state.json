@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Create a game featuring Sonic and Tails fighting.",
+  "architectural_notes": [],
+  "known_issues": [],
+  "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- Arcade fighting stage background with dynamic lighting and motion lines (stage-bg.dim_1920x1080.png)\n- Blue hedgehog-like fighter sprite sheet, 6-frame grid, transparent background (hedgehog-fighter-sprites.dim_768x512.png)\n- Orange two-tailed fox-like fighter sprite sheet, 6-frame grid, transparent background (fox-fighter-sprites.dim_768x512.png)\n- HUD panel elements: two health bar frames and a center round indicator, transparent background (hud-elements.dim_1024x256.png)",
+  "existing_features": [
+    {
+      "id": "feature-create-a-playable-local-2d-fighting-game-in-the-react-frontend-with-two-characters-a-blue-hedgehog-like-character-and-an-orange-two-tailed-fox-like-character-that-can-fight-each-other-on-the-same-keyboard",
+      "title": "Create a playable local 2D fighting game in the React frontend with two characters (a blue hedgehog-like character and an orange two-tailed fox-like character) that can fight each other on the same keyboard.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-core-combat-mechanics-movement-jumping-facing-direction-basic-attacks-hit-detection-damage-knockback-health-bars-round-win-state-and-match-reset",
+      "title": "Implement core combat mechanics: movement, jumping, facing direction, basic attacks, hit detection, damage, knockback, health bars, round/win state, and match reset.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-simple-game-ui-title-start-screen-controls-help-overlay-in-match-hud-names-health-pause-resume-and-game-over-screen-use-english-for-all-on-screen-text",
+      "title": "Add a simple game UI: title/start screen, controls/help overlay, in-match HUD (names + health), pause/resume, and game-over screen. Use English for all on-screen text.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-coherent-visual-theme-for-the-game-ui-and-scene-colors-typography-layout-and-apply-it-consistently-across-start-screen-hud-overlays-and-game-over-screen-avoid-a-blue-purple-dominant-palette",
+      "title": "Add a coherent visual theme for the game UI and scene (colors, typography, layout) and apply it consistently across start screen, HUD, overlays, and game-over screen (avoid a blue/purple-dominant palette).",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-use-generated-static-art-assets-background-character-sprites-stored-under-frontend-public-assets-generated-and-render-them-in-the-game-fighters-and-stage",
+      "title": "Use generated static art assets (background + character sprites) stored under frontend/public/assets/generated and render them in the game (fighters and stage).",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Build a fighting game featuring Sonic and Tails as playable characters.",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "projectName": "Local 2D fighting game featuring Sonic-like and Tails-like characters",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

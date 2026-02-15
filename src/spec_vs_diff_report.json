@@ -1,0 +1,77 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-15T18:50:57.218Z",
+  "summary": "Diff adds a local React-based 2D fighting game scaffold with keyboard controls for two players, core movement/attacks/hit detection, start/pause/game-over UI, and rendering of stage + fighter sprite sheets from /public/assets/generated. Some acceptance criteria appear only partially met (notably match reset and pause toggle behavior). Also adds unrelated auth/actor hook code and external links.",
+  "missing_requirements": [
+    {
+      "id": "REQ-2",
+      "requirement": "Match reset after a win should reset health/positions/state when restarting.",
+      "reason": "The restart flow returns to the start screen, but there is no clear reinitialization of gameState on subsequent starts; useGameLoop only resets when isPlaying && gameState.frameCount === 0, and frameCount will not be 0 after a completed match.",
+      "evidence": [
+        "frontend/src/game/GameRoot.tsx",
+        "frontend/src/game/engine/useGameLoop.ts"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "requirement": "Pause toggle (pause/resume) should stop gameplay updates until resumed.",
+      "reason": "Pause is triggered via ESC when playing, but there is no keyboard-based resume/toggle path shown; when paused, the game loop stops (isPlaying false) and pausePressed no longer triggers resume. Resume is only via clicking the overlay button.",
+      "evidence": [
+        "frontend/src/game/engine/useGameLoop.ts",
+        "frontend/src/game/GameRoot.tsx",
+        "frontend/src/game/ui/PauseOverlay.tsx"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Internet Identity / authenticated actor hook plumbing (useActor) unrelated to a fully local/offline fighting game.",
+      "reason": "BuildRequest explicitly says the game should load without authentication and stay fully local/offline; this adds identity-dependent actor creation and query invalidation logic not requested.",
+      "evidence": [
+        "frontend/src/hooks/useActor.ts"
+      ]
+    },
+    {
+      "description": "External promotional footer link to caffeine.ai on start and game-over screens.",
+      "reason": "Not requested in the BuildRequest; also introduces outbound navigation inconsistent with a purely local/offline experience expectation.",
+      "evidence": [
+        "frontend/src/game/ui/StartScreen.tsx",
+        "frontend/src/game/ui/GameOverScreen.tsx"
+      ]
+    }
+  ],
+  "confidence": 0.74,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/game/GameRoot.tsx",
+    "frontend/src/game/engine/collision.ts",
+    "frontend/src/game/engine/constants.ts",
+    "frontend/src/game/engine/simulation.ts",
+    "frontend/src/game/engine/types.ts",
+    "frontend/src/game/engine/useGameLoop.ts",
+    "frontend/src/game/input/keybindings.ts",
+    "frontend/src/game/input/useKeyboard.ts",
+    "frontend/src/game/render/FighterSprite.tsx",
+    "frontend/src/game/render/Stage.tsx",
+    "frontend/src/game/render/assets.ts",
+    "frontend/src/game/ui/ControlsOverlay.tsx",
+    "frontend/src/game/ui/GameOverScreen.tsx",
+    "frontend/src/game/ui/HUD.tsx",
+    "frontend/src/game/ui/PauseOverlay.tsx",
+    "frontend/src/game/ui/StartScreen.tsx",
+    "frontend/src/game/ui/uiClasses.ts",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/index.css",
+    "frontend/src/main.tsx",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}

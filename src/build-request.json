@@ -1,0 +1,121 @@
+{
+  "kind": "build_request",
+  "title": "Local 2D fighting game featuring Sonic-like and Tails-like characters",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Create a playable local 2D fighting game in the React frontend with two characters (a blue hedgehog-like character and an orange two-tailed fox-like character) that can fight each other on the same keyboard.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "create a game with sonic and tails figthing"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The app loads into a playable fighting game without requiring authentication.",
+        "Two distinct playable fighters are available at match start: a hedgehog-like character and a two-tailed fox-like character.",
+        "Both fighters can be controlled simultaneously on one keyboard (separate keybinds per player).",
+        "A match can be completed (one player wins) without errors or page reloads."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Implement core combat mechanics: movement, jumping, facing direction, basic attacks, hit detection, damage, knockback, health bars, round/win state, and match reset.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "create a game with sonic and tails figthing"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Each player can move left/right and jump.",
+        "Each player has at least two attacks (e.g., quick jab and heavy attack) with different range and/or damage.",
+        "Attacks only apply damage when hitboxes overlap during active frames; no damage is applied outside attack windows.",
+        "Health bars update correctly and cannot go below 0.",
+        "When a player reaches 0 health, the game shows the winner and offers a restart that resets health/positions/state."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Add a simple game UI: title/start screen, controls/help overlay, in-match HUD (names + health), pause/resume, and game-over screen. Use English for all on-screen text.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "create a game with sonic and tails figthing"
+        ]
+      },
+      "acceptanceCriteria": [
+        "A start screen is shown with a clear “Start” action.",
+        "A controls/help overlay is available from the start screen and/or during the match.",
+        "An in-match HUD shows both player names and health.",
+        "A pause toggle stops gameplay updates (movement/attacks/health changes) until resumed.",
+        "All user-facing text is in English."
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Add a coherent visual theme for the game UI and scene (colors, typography, layout) and apply it consistently across start screen, HUD, overlays, and game-over screen (avoid a blue/purple-dominant palette).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The UI uses a consistent color palette and typography across all screens.",
+        "The palette is not primarily blue/purple; it should fit an energetic arcade fighting vibe (e.g., warm neon, sunset, or industrial).",
+        "Buttons, panels, and HUD elements share consistent styling (spacing, borders, shadows)."
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Use generated static art assets (background + character sprites) stored under frontend/public/assets/generated and render them in the game (fighters and stage).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "create a game with sonic and tails figthing"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The stage background is loaded from frontend/public/assets/generated and visible during gameplay.",
+        "Both fighters are represented with static sprites or simple frame-based sprites loaded from frontend/public/assets/generated.",
+        "No image assets are served from the backend canister; they are loaded as static frontend assets."
+      ]
+    }
+  ],
+  "constraints": [
+    "Respect the platform’s single-actor backend architecture; do not introduce additional backend services.",
+    "Do not edit files under frontend immutablePaths (compose existing UI components instead).",
+    "Keep the game fully local/offline (no real-time networking/websockets).",
+    "Avoid using trademarked/copyrighted official Sonic/Tails artwork; use original, lookalike-inspired designs instead."
+  ],
+  "nonGoals": [
+    "Online multiplayer or matchmaking",
+    "Internet Identity authentication requirements",
+    "Persistent progression, inventories, or complex RPG systems",
+    "External API integrations",
+    "3D gameplay (unless needed incidentally for rendering; the game should function as a simple 2D fighter)"
+  ],
+  "imageRequirements": {
+    "required": [
+      "Arcade fighting stage background with dynamic lighting and motion lines (stage-bg.dim_1920x1080.png)",
+      "Blue hedgehog-like fighter sprite sheet, 6-frame grid, transparent background (hedgehog-fighter-sprites.dim_768x512.png)",
+      "Orange two-tailed fox-like fighter sprite sheet, 6-frame grid, transparent background (fox-fighter-sprites.dim_768x512.png)",
+      "HUD panel elements: two health bar frames and a center round indicator, transparent background (hud-elements.dim_1024x256.png)"
+    ],
+    "edits": []
+  }
+}

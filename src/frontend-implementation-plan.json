@@ -1,0 +1,222 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Local 2D arcade fighter (hedgehog vs two-tailed fox)",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Add a playable local 2D fighting game view that spawns two distinct fighters and supports simultaneous same-keyboard control without authentication.",
+      "acceptanceCriteria": [
+        "The app loads into a playable fighting game without requiring authentication.",
+        "Two distinct playable fighters are available at match start: a hedgehog-like character and a two-tailed fox-like character.",
+        "Both fighters can be controlled simultaneously on one keyboard (separate keybinds per player).",
+        "A match can be completed (one player wins) without errors or page reloads."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "create",
+          "description": "Create the top-level app shell that renders the game UI (start screen -> match -> game over) with no authentication gating, ensuring the experience is immediately playable offline."
+        },
+        {
+          "path": "frontend/src/game/GameRoot.tsx",
+          "operation": "create",
+          "description": "Create the main game container component to own high-level state transitions (start, playing, paused, game over) and mount the renderer + HUD."
+        },
+        {
+          "path": "frontend/src/game/input/keybindings.ts",
+          "operation": "create",
+          "description": "Define separate keybinds for Player 1 and Player 2 (movement/jump/attacks/pause) and export a single source of truth for input mapping."
+        },
+        {
+          "path": "frontend/src/game/input/useKeyboard.ts",
+          "operation": "create",
+          "description": "Implement a keyboard input hook that tracks pressed keys and exposes per-player actions for simultaneous play."
+        },
+        {
+          "path": "frontend/src/main.tsx",
+          "operation": "modify",
+          "description": "Ensure global styles are imported correctly (align the CSS import path with the existing frontend/index.css) and keep the app mounting unchanged so the game loads immediately without requiring login."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Implement core 2D fighter combat loop: movement/jump/physics, facing direction, multi-attack move set, hit detection with active frames, damage/knockback, health, win state, and full match reset.",
+      "acceptanceCriteria": [
+        "Each player can move left/right and jump.",
+        "Each player has at least two attacks (e.g., quick jab and heavy attack) with different range and/or damage.",
+        "Attacks only apply damage when hitboxes overlap during active frames; no damage is applied outside attack windows.",
+        "Health bars update correctly and cannot go below 0.",
+        "When a player reaches 0 health, the game shows the winner and offers a restart that resets health/positions/state."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/game/engine/types.ts",
+          "operation": "create",
+          "description": "Add shared types for fighters, attacks, hitboxes, timers/frames, and match state used by the game loop and UI."
+        },
+        {
+          "path": "frontend/src/game/engine/constants.ts",
+          "operation": "create",
+          "description": "Add tunable constants (gravity, speed, jump impulse, arena bounds, attack frame windows, damage/knockback values) to support predictable gameplay and easy balance tweaks."
+        },
+        {
+          "path": "frontend/src/game/engine/collision.ts",
+          "operation": "create",
+          "description": "Implement overlap checks for rectangular hitboxes/hurtboxes and helpers for resolving hits only during attack active frames."
+        },
+        {
+          "path": "frontend/src/game/engine/simulation.ts",
+          "operation": "create",
+          "description": "Implement the deterministic per-tick simulation: apply inputs, integrate movement/jump, update facing, manage attack state machines with startup/active/recovery frames, apply damage/knockback, clamp health to >= 0, and determine round winner."
+        },
+        {
+          "path": "frontend/src/game/engine/useGameLoop.ts",
+          "operation": "create",
+          "description": "Create a requestAnimationFrame-driven loop (or fixed timestep) that advances the simulation while playing, and freezes updates when paused/game over."
+        },
+        {
+          "path": "frontend/src/game/GameRoot.tsx",
+          "operation": "modify",
+          "description": "Wire the simulation + input hooks into the game container; implement match reset to restore health/positions/attack state and allow completing a match without reloads."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Add game UI screens and overlays: title/start screen, controls/help, in-match HUD (names + health), pause/resume, and game-over screen, with all text in English.",
+      "acceptanceCriteria": [
+        "A start screen is shown with a clear “Start” action.",
+        "A controls/help overlay is available from the start screen and/or during the match.",
+        "An in-match HUD shows both player names and health.",
+        "A pause toggle stops gameplay updates (movement/attacks/health changes) until resumed.",
+        "All user-facing text is in English."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/game/ui/StartScreen.tsx",
+          "operation": "create",
+          "description": "Create the title/start screen with a clear “Start” action and an option to open the controls/help overlay. If using shadcn-ui components for buttons/panels, verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/game/ui/ControlsOverlay.tsx",
+          "operation": "create",
+          "description": "Create a controls/help overlay listing Player 1 and Player 2 keybinds (English text). If using shadcn-ui Dialog/Popover components, verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/game/ui/HUD.tsx",
+          "operation": "create",
+          "description": "Create the in-match HUD showing both player names and health bars, and optionally a round indicator. If using shadcn-ui components for layout, verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/game/ui/PauseOverlay.tsx",
+          "operation": "create",
+          "description": "Create a pause overlay with resume instructions; ensure it visually indicates the paused state and blocks gameplay updates. If using shadcn-ui components, verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/game/ui/GameOverScreen.tsx",
+          "operation": "create",
+          "description": "Create a game-over screen that shows the winner in English and provides a restart action that resets the match state. If using shadcn-ui components, verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/game/GameRoot.tsx",
+          "operation": "modify",
+          "description": "Wire start screen, overlays, HUD, pause toggle, and game-over screen into the game state machine; ensure pause freezes simulation updates until resumed."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Apply a consistent arcade fighting visual theme across all screens and UI elements, using a non-blue/purple-dominant warm neon/industrial palette and consistent typography/layout.",
+      "acceptanceCriteria": [
+        "The UI uses a consistent color palette and typography across all screens.",
+        "The palette is not primarily blue/purple; it should fit an energetic arcade fighting vibe (e.g., warm neon, sunset, or industrial).",
+        "Buttons, panels, and HUD elements share consistent styling (spacing, borders, shadows)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/index.css",
+          "operation": "modify",
+          "description": "Update global CSS variables and base styles to a cohesive warm neon/industrial palette (avoid blue/purple dominance), define consistent panel/button styling primitives, and ensure typography is consistent across screens."
+        },
+        {
+          "path": "frontend/src/game/ui/uiClasses.ts",
+          "operation": "create",
+          "description": "Centralize shared Tailwind class strings for buttons/panels/text treatments used by start/HUD/overlays/game-over to keep styling consistent across the game UI."
+        },
+        {
+          "path": "frontend/src/game/ui/StartScreen.tsx",
+          "operation": "modify",
+          "description": "Apply the shared theme styles (layout, typography, buttons/panels) for a consistent arcade vibe across the start screen."
+        },
+        {
+          "path": "frontend/src/game/ui/HUD.tsx",
+          "operation": "modify",
+          "description": "Apply the shared theme styles to HUD elements (name plates, health frames, spacing, shadows) for consistent presentation."
+        },
+        {
+          "path": "frontend/src/game/ui/GameOverScreen.tsx",
+          "operation": "modify",
+          "description": "Apply the shared theme styles to game-over presentation and restart action for consistent look and feel."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Integrate the required generated static art assets (stage background, fighter sprite sheets, HUD elements) from frontend/public/assets/generated into the stage and UI; load them as static frontend assets only.",
+      "acceptanceCriteria": [
+        "The stage background is loaded from frontend/public/assets/generated and visible during gameplay.",
+        "Both fighters are represented with static sprites or simple frame-based sprites loaded from frontend/public/assets/generated.",
+        "No image assets are served from the backend canister; they are loaded as static frontend assets."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/generated/stage-bg.dim_1920x1080.png",
+          "operation": "create",
+          "description": "Add the generated stage background asset at the exact path frontend/public/assets/generated/stage-bg.dim_1920x1080.png so it can be loaded as a static frontend asset."
+        },
+        {
+          "path": "frontend/public/assets/generated/hedgehog-fighter-sprites.dim_768x512.png",
+          "operation": "create",
+          "description": "Add the generated hedgehog-like fighter sprite sheet at frontend/public/assets/generated/hedgehog-fighter-sprites.dim_768x512.png for in-game rendering as a static frontend asset."
+        },
+        {
+          "path": "frontend/public/assets/generated/fox-fighter-sprites.dim_768x512.png",
+          "operation": "create",
+          "description": "Add the generated two-tailed fox-like fighter sprite sheet at frontend/public/assets/generated/fox-fighter-sprites.dim_768x512.png for in-game rendering as a static frontend asset."
+        },
+        {
+          "path": "frontend/public/assets/generated/hud-elements.dim_1024x256.png",
+          "operation": "create",
+          "description": "Add the generated HUD elements at frontend/public/assets/generated/hud-elements.dim_1024x256.png for health bar frames and the round indicator as static frontend assets."
+        },
+        {
+          "path": "frontend/src/game/render/assets.ts",
+          "operation": "create",
+          "description": "Create a small asset manifest/loader that references the exact generated asset paths (frontend/public/assets/generated/stage-bg.dim_1920x1080.png, frontend/public/assets/generated/hedgehog-fighter-sprites.dim_768x512.png, frontend/public/assets/generated/fox-fighter-sprites.dim_768x512.png, frontend/public/assets/generated/hud-elements.dim_1024x256.png) and preloads them before gameplay."
+        },
+        {
+          "path": "frontend/src/game/render/Stage.tsx",
+          "operation": "create",
+          "description": "Implement the stage renderer that displays the background image (frontend/public/assets/generated/stage-bg.dim_1920x1080.png) behind gameplay and maintains a stable 2D arena coordinate system."
+        },
+        {
+          "path": "frontend/src/game/render/FighterSprite.tsx",
+          "operation": "create",
+          "description": "Implement a simple sprite renderer that uses the sprite sheets (frontend/public/assets/generated/hedgehog-fighter-sprites.dim_768x512.png and frontend/public/assets/generated/fox-fighter-sprites.dim_768x512.png) to show idle/move/attack frames via a basic frame selection scheme."
+        },
+        {
+          "path": "frontend/src/game/ui/HUD.tsx",
+          "operation": "modify",
+          "description": "Render HUD frames using frontend/public/assets/generated/hud-elements.dim_1024x256.png while still updating health text/values from match state."
+        },
+        {
+          "path": "frontend/src/game/GameRoot.tsx",
+          "operation": "modify",
+          "description": "Wire Stage and FighterSprite rendering into the playing view, ensuring all images are loaded as static frontend assets and nothing is fetched from the backend."
+        }
+      ]
+    }
+  ]
+}

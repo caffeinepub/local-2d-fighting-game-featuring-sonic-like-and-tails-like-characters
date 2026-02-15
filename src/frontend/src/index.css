@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --radius: 0.25rem;
+        /* Warm neon arcade palette - sunset/industrial theme */
+        --background: 0.98 0 0;
+        --foreground: 0.15 0 0;
+        --card: 0.95 0 0;
+        --card-foreground: 0.15 0 0;
+        --popover: 0.95 0 0;
+        --popover-foreground: 0.15 0 0;
+        /* Vibrant orange primary */
+        --primary: 0.65 0.22 35;
+        --primary-foreground: 0.98 0 0;
+        /* Hot pink accent */
+        --secondary: 0.70 0.25 350;
+        --secondary-foreground: 0.98 0 0;
+        --muted: 0.88 0.02 60;
+        --muted-foreground: 0.45 0.05 60;
+        /* Electric cyan accent */
+        --accent: 0.75 0.18 195;
+        --accent-foreground: 0.98 0 0;
+        --destructive: 0.55 0.25 25;
+        --destructive-foreground: 0.98 0 0;
+        --border: 0.80 0.08 40;
+        --input: 0.80 0.08 40;
+        --ring: 0.65 0.22 35;
+        --chart-1: 0.65 0.22 35;
+        --chart-2: 0.70 0.25 350;
+        --chart-3: 0.75 0.18 195;
+        --chart-4: 0.68 0.20 60;
+        --chart-5: 0.60 0.24 15;
+    }
+
+    .dark {
+        --background: 0.12 0.02 280;
+        --foreground: 0.95 0.02 60;
+        --card: 0.18 0.03 280;
+        --card-foreground: 0.95 0.02 60;
+        --popover: 0.15 0.03 280;
+        --popover-foreground: 0.95 0.02 60;
+        /* Vibrant orange primary */
+        --primary: 0.70 0.24 35;
+        --primary-foreground: 0.12 0.02 280;
+        /* Hot pink secondary */
+        --secondary: 0.65 0.22 350;
+        --secondary-foreground: 0.95 0.02 60;
+        --muted: 0.25 0.04 280;
+        --muted-foreground: 0.60 0.05 60;
+        /* Electric cyan accent */
+        --accent: 0.70 0.20 195;
+        --accent-foreground: 0.12 0.02 280;
+        --destructive: 0.60 0.25 25;
+        --destructive-foreground: 0.95 0.02 60;
+        --border: 0.25 0.05 280;
+        --input: 0.25 0.05 280;
+        --ring: 0.70 0.24 35;
+        --chart-1: 0.70 0.24 35;
+        --chart-2: 0.65 0.22 350;
+        --chart-3: 0.70 0.20 195;
+        --chart-4: 0.68 0.20 60;
+        --chart-5: 0.60 0.24 15;
+    }
+
+    * {
+        @apply border-border;
+    }
+    body {
+        @apply bg-background text-foreground;
+        font-family: 'Orbitron', 'Rajdhani', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap');
+
+@layer utilities {
+    .arcade-glow {
+        text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
+    }
+    
+    .arcade-border {
+        border: 2px solid oklch(var(--primary));
+        box-shadow: 0 0 10px oklch(var(--primary) / 0.5), inset 0 0 10px oklch(var(--primary) / 0.2);
+    }
+    
+    .neon-box {
+        box-shadow: 0 0 20px oklch(var(--primary) / 0.4), 0 0 40px oklch(var(--accent) / 0.2);
+    }
+}
